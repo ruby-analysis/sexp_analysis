@@ -38,7 +38,8 @@ end
 
 class FileContents < Struct.new(:filename)
   def strings
-    flatten(parse(raw)).map(&:to_s).
+    flatten(parse(raw)).
+      map(&:to_s).
       map{|s| humanize(s)}.
       reject{|w| stop_words.include?(w)}
   end
