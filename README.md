@@ -30,6 +30,10 @@ This counts and sorts the S-expressions in the glob of files.
 
 ##Tree cohesiveness visualization
 
+This just provides a visualization of terms used and how dispersed they are
+* Green tick - full path matches the term
+* Red cross  - no match
+
 ```
 ./tree "../app/**/*" search
 ../app/assets/stylesheets........X.....
