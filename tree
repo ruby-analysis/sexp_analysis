@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require './tree.rb'
+
+def usage!
+  puts "Usage #{__FILE__} <file_match> <search>"
+  puts "e.g."
+  puts "#{__FILE__} \"app/**/*.rb\" user"
+
+  exit 1
+end
+
+usage! unless ARGV.length == 2
+
+glob = ARGV[0]
+search = ARGV[1]
+
+puts(Writer.new(search).tap do |w|
+  w.add_files(glob)
+end)
