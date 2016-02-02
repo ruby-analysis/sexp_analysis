@@ -32,7 +32,8 @@ This counts and sorts the S-expressions in the glob of files.
 
 This just provides a visualization of terms used and how dispersed they are
 * Green tick - full path matches the term
-* Red cross  - no match
+* Red cross  - no match of path but term in file
+* White Dot  - a file with no match
 
 ```
 ./tree "../app/**/*" search
