@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require './analysis'
+
+def usage!
+  puts "Usage #{__FILE__} <file_match> <exclusions>"
+  puts "e.g."
+  puts "#{__FILE__} \"app/**/*.rb\" app/views"
+
+  exit 1
+end
+
+usage!  unless ARGV.length >= 1
+
+glob       = ARGV[0]
+exclusions = ARGV[1]
+sorted     = SexpSummary.new(glob, exclusions).sorted
+
+sorted.take(100).each do |w,c|
+  $stdout.puts "#{c}\t#{w}\n"
+end
