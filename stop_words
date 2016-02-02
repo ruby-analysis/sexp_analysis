@@ -68,6 +68,10 @@ BEGIN   END   __ENCODING__   __END__   __FILE__   __LINE__   alias   and
   delete post get put patch
   id new
   sprintf format Integer Float String Array Hash warn raise fail global_variables __method__ __callee__ __dir__ eval local_variables iterator?  block_given?  catch throw loop trace_var untrace_var at_exit syscall open printf print putc puts gets readline select readlines ` p test srand rand trap load require require_relative autoload autoload?  proc lambda binding caller caller_locations exec fork exit!  system spawn sleep exit abort Rational Complex set_trace_func pp Pathname freeze === == <=> < <= > >= to_s inspect included_modules include?  name ancestors instance_methods public_instance_methods protected_instance_methods private_instance_methods constants const_get const_set const_defined?  const_missing class_variables remove_class_variable class_variable_get class_variable_set class_variable_defined?  public_constant private_constant singleton_class?  include prepend module_exec class_exec module_eval class_eval method_defined?  public_method_defined?  private_method_defined?  protected_method_defined?  public_class_method private_class_method instance_method public_instance_method pretty_print_cycle pretty_print pry __binding__ pretty_print_instance_variables pretty_print_inspect nil?  =~ !~ eql?  hash class singleton_class clone dup itself taint tainted?  untaint untrust untrusted?  trust frozen?  methods singleton_methods protected_methods private_methods public_methods instance_variables instance_variable_get instance_variable_set instance_variable_defined?  remove_instance_variable instance_of?  kind_of?  is_a?  tap send public_send respond_to?  extend display method public_method singleton_method define_singleton_method object_id to_enum enum_for pretty_inspect byebug debugger methodz equal?  !  != instance_eval instance_exec __send__ __id__
+  delegate
+  attr_accessor
+  url
+  join
 
 belongs_to_counter_cache_after_create belongs_to_counter_cache_before_destroy
 belongs_to_counter_cache_after_update
