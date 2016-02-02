@@ -75,3 +75,12 @@ This just provides a visualization of terms used and how dispersed they are
 ../app/views/welcome........
 ```
 
+
+#Future ideas
+* Use more information from the sexp to determine class and method definitions
+and try and infer usages.
+* Use data to make an estimate of afferent and efferent coupling.
+* Create a heuristic using the coupling info plus each file sexp as a sub-branch upon
+each file node in the directory strucutre.
+* Turn heuristic analysis into a useful metric for cohesiveness and highlight potential
+code/architectural issues like code climate.
