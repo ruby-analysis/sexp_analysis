@@ -1,7 +1,6 @@
 #puts "Number of files: #{files.count}"
 require 'rubygems'
 require 'active_support/core_ext/string'
-require 'active_support/core_ext/object'
 require "byebug"
 
 require_relative 'sexp_stemmer'

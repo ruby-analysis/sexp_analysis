@@ -1,6 +1,12 @@
 require 'parser/current'
+require 'active_support/core_ext/object'
+require 'active_support/core_ext/array'
 
-class FileSexp < Struct.new(:filename)
+class FileSexp  < Struct.new(:filename)
+  def self.for(filename)
+    new(filename).sexp
+  end
+
   def flattened_sexp
     sexp_names.flatten
   end
@@ -9,10 +15,9 @@ class FileSexp < Struct.new(:filename)
     parse(raw)
   end
 
-  def sexp_names
-    to_a sexp
+  def sexp_names(filter=nil)
+    to_a sexp, filter
   end
-
 
   private
 
@@ -31,8 +36,26 @@ class FileSexp < Struct.new(:filename)
     parser.parse(c)
   end
 
-  def to_a(sexp)
-    sexp.to_a.map{|s| s.respond_to?(:to_a) ? to_a(s) : s }
+  def to_a(sexp, filter=nil)
+    return unless sexp
+
+    sexp.children.map &children_of(filter)
+  end
+
+  def children_of(filter=nil)
+    lambda do |s|
+      if s.respond_to?(:children)
+        children = to_a(s, filter).reject(&:blank?)
+
+        if filter && s.type == filter
+          {s.type => children}
+        else
+          children
+        end
+      else
+        s
+      end
+    end
   end
 end
 

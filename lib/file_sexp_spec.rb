@@ -6,7 +6,7 @@ describe FileSexp do
       file_sexp = described_class.new("./fixtures/example.rb")
 
       expect(file_sexp.flattened_sexp).to eq(
-        [:Example, :some_method, :some_arg, :@some_instance_variable, 1, :another_method, :args_name, 2]
+        [:Example, nil, :some_method, :some_arg, :@some_instance_variable, 1, :another_method, :args_name, 2]
       )
     end
   end
@@ -35,10 +35,10 @@ describe FileSexp do
     it do
       file_sexp = described_class.new("./fixtures/example.rb")
 
-      expected = [[[], :Example], [], [[:some_method, [[:some_arg]],
-                                        [:@some_instance_variable, [1]]],
-      [:another_method, [[:args_name]], [2]]]]
-
+      expected = [[:Example],
+                  nil,
+                  [[:some_method, [[:some_arg]], [:@some_instance_variable, [1]]],
+                   [:another_method, [[:args_name]], [2]]]]
       expect(file_sexp.sexp_names).to eq expected
 
     end
