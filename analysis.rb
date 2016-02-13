@@ -3,6 +3,7 @@ require 'rubygems'
 require 'active_support/all'
 require "byebug"
 require 'parser/current'
+require 'stemmify'
 
 Parser::Builders::Default.emit_lambda = true # opt-in to most recent AST format
 
@@ -65,14 +66,19 @@ class FileContents < Struct.new(:filename)
   def strings
     flatten(parse(raw)).
       map(&:to_s).
-      map{|s| humanize(s)}.
-      reject{|w| stop_words.include?(w)}
+      map{|s| format_word(s)}.
+      flatten.
+      reject{|w| w.length < 3 }.
+      reject{|w| stop_words.include?(w)}.
+      reject(&:blank?)
   end
 
   private
 
   def raw
-    File.read(filename)
+    return unless filename[/\.rb$/]
+    
+    File.read(filename) unless File.directory?(filename)
   end
 
   def parser
@@ -80,6 +86,7 @@ class FileContents < Struct.new(:filename)
   end
 
   def parse(c)
+    return [] if c.blank?
     parser.parse(c)
   end
 
@@ -90,13 +97,21 @@ class FileContents < Struct.new(:filename)
   def stop_words
     @stop_words ||=
       begin
-        words = eval File.read("./stop_words")
-        words.map {|w| humanize(w)}
+        stop_words = eval File.read("./stop_words")
+        stop_words.map {|w| format_word(w)}.flatten
       end
   end
 
-  def humanize(w)
-    w.underscore.gsub(/_/, " ").humanize.gsub(/^@/, "")
+  def format_word(w)
+    decodify(w).
+      split(" ").
+      map(&:stem)
+  end
+
+  def decodify(w)
+    w.underscore.
+      gsub("_", " ").
+      gsub(/[^\w ]/, " ")
   end
 end
 
