@@ -10,10 +10,8 @@ Parser::Builders::Default.emit_lambda = true # opt-in to most recent AST format
 
 class SexpSummary < Struct.new(:glob, :exclusions)
   def sorted
-    contents.each do |words|
-      words.each do |word|
-        word_count.add(word)
-      end
+    sexp_contents.each do |words|
+      word_count.add(*words)
     end
 
     word_count.sort_by(&:last).reverse
@@ -25,23 +23,25 @@ class SexpSummary < Struct.new(:glob, :exclusions)
     @word_count ||= WordCount.new
   end
 
-  def contents
-    @contents ||= FileSexp.new(glob, exclusions).contents
+  def sexp_contents
+    @sexp_contents ||= GlobSexp.new(glob, exclusions).contents
   end
 end
 
 class WordCount < Hash
-  def add(word)
-    self[word] ||= 0
-    self[word] += 1
+  def add(*words)
+    words.each do |word|
+      self[word] ||= 0
+      self[word] += 1
+    end
   end
 end
 
 
-class FileSexp < Struct.new(:glob, :exclusions)
+class GlobSexp < Struct.new(:glob, :exclusions)
   def contents
     files.lazy.map do |f|
-      FileContents.new(f).strings
+      SexpStemmer.new(f).stemmed_strings
     end
   end
 
@@ -62,9 +62,10 @@ class FileSexp < Struct.new(:glob, :exclusions)
   end
 end
 
-class FileContents < Struct.new(:filename)
-  def strings
-    flatten(parse(raw)).
+class SexpStemmer < Struct.new(:filename)
+  def stemmed_strings
+    FileSexp.new(filename).
+      sexp.
       map(&:to_s).
       map{|s| format_word(s)}.
       flatten.
@@ -75,9 +76,39 @@ class FileContents < Struct.new(:filename)
 
   private
 
+  def format_word(w)
+    decodify(w).
+      split(" ").
+      map(&:humanize).
+      map(&:stem)
+  end
+
+  def decodify(w)
+    w.underscore.
+      gsub("_", " ").
+      gsub(/[^\w ]/, " ")
+  end
+
+  def stop_words
+    @@stop_words ||= define_stop_words
+  end
+
+  def define_stop_words
+    stop_words = eval File.read("./stop_words")
+    stop_words.map {|w| format_word(w)}.flatten
+  end
+end
+
+class FileSexp < Struct.new(:filename)
+  def sexp
+    flatten(parse(raw))
+  end
+
+  private
+
   def raw
     return unless filename[/\.rb$/]
-    
+
     File.read(filename) unless File.directory?(filename)
   end
 
@@ -92,26 +123,6 @@ class FileContents < Struct.new(:filename)
 
   def flatten(sexp)
     sexp.to_a.map{|s| s.respond_to?(:to_a) ? flatten(s) : s }.flatten
-  end
-
-  def stop_words
-    @stop_words ||=
-      begin
-        stop_words = eval File.read("./stop_words")
-        stop_words.map {|w| format_word(w)}.flatten
-      end
-  end
-
-  def format_word(w)
-    decodify(w).
-      split(" ").
-      map(&:stem)
-  end
-
-  def decodify(w)
-    w.underscore.
-      gsub("_", " ").
-      gsub(/[^\w ]/, " ")
   end
 end
 
