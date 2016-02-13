@@ -1,12 +1,14 @@
 #puts "Number of files: #{files.count}"
 require 'rubygems'
-require 'active_support/all'
+require 'active_support/core_ext/string'
+require 'active_support/core_ext/object'
 require "byebug"
 require 'parser/current'
+
 require 'stemmify'
 
-Parser::Builders::Default.emit_lambda = true # opt-in to most recent AST format
 
+Parser::Builders::Default.emit_lambda = true # opt-in to most recent AST format
 
 class SexpSummary < Struct.new(:glob, :exclusions)
   def sorted
@@ -65,7 +67,7 @@ end
 class SexpStemmer < Struct.new(:filename)
   def stemmed_strings
     FileSexp.new(filename).
-      sexp.
+      flattened_sexp.
       map(&:to_s).
       map{|s| format_word(s)}.
       flatten.
@@ -100,9 +102,18 @@ class SexpStemmer < Struct.new(:filename)
 end
 
 class FileSexp < Struct.new(:filename)
-  def sexp
-    flatten(parse(raw))
+  def flattened_sexp
+    sexp_names.flatten
   end
+
+  def sexp
+    parse(raw)
+  end
+
+  def sexp_names
+    to_a sexp
+  end
+
 
   private
 
@@ -121,8 +132,8 @@ class FileSexp < Struct.new(:filename)
     parser.parse(c)
   end
 
-  def flatten(sexp)
-    sexp.to_a.map{|s| s.respond_to?(:to_a) ? flatten(s) : s }.flatten
+  def to_a(sexp)
+    sexp.to_a.map{|s| s.respond_to?(:to_a) ? to_a(s) : s }
   end
 end
 

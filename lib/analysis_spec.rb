@@ -1,0 +1,91 @@
+require "sexp"
+require_relative "./analysis"
+
+describe SexpSummary do
+  it do
+    summary = described_class.new("./fixtures/**/*.rb")
+
+    expect(summary.sorted).to match_array [
+      ["Exampl", 1],
+      ["Some", 3],
+      ["Arg", 2],
+
+      ["Another", 1]
+    ]
+  end
+end
+
+describe WordCount do
+  it do
+    subject.add *%w(egg cheese egg banana)
+
+    expect(subject.to_h).to eq({"egg" => 2, "cheese" => 1, "banana" => 1})
+  end
+end
+
+describe GlobSexp do
+  it do
+    glob_sexp = described_class.new("./fixtures/**/*.rb")
+
+    expect(glob_sexp.contents.to_a).to eq(
+      [["Exampl", "Some", "Some", "Arg", "Some", "Another", "Arg"]]
+    )
+  end
+end
+
+
+describe SexpStemmer do
+  it do
+    stemmer = described_class.new("./fixtures/example.rb")
+
+    expect(stemmer.stemmed_strings.to_a).to eq(
+      ["Exampl", "Some", "Some", "Arg", "Some", "Another", "Arg"]
+    )
+  end
+end
+
+
+describe FileSexp do
+  describe "#flattened_sexp" do
+    it do
+      file_sexp = described_class.new("./fixtures/example.rb")
+
+      expect(file_sexp.flattened_sexp).to eq(
+        [:Example, :some_method, :some_arg, :@some_instance_variable, 1, :another_method, :args_name, 2]
+      )
+    end
+  end
+
+  def s(sym, *args)
+    Parser::AST::Node.new(sym, args)
+  end
+
+  describe "#sexp" do
+    it do
+      file_sexp = described_class.new("./fixtures/example.rb")
+
+      expected = s(:class, s(:const, nil, :Example),
+         nil,
+         s(:begin,
+           s(:def, :some_method, 
+             s(:args, s(:arg, :some_arg)),
+             s(:ivasgn, :@some_instance_variable, s(:int, 1))),
+           s(:def, :another_method, s(:args, s(:restarg, :args_name)), s(:int, 2))))
+
+      expect(file_sexp.sexp.to_a).to eq(expected.to_a)
+    end
+  end
+
+  describe "#sexp_names" do
+    it do
+      file_sexp = described_class.new("./fixtures/example.rb")
+
+      expected = [[[], :Example], [], [[:some_method, [[:some_arg]],
+                                        [:@some_instance_variable, [1]]],
+      [:another_method, [[:args_name]], [2]]]]
+
+      expect(file_sexp.sexp_names).to eq expected
+
+    end
+  end
+end
