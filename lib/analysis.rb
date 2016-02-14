@@ -1,11 +1,7 @@
-#puts "Number of files: #{files.count}"
-require 'rubygems'
-require 'active_support/core_ext/string'
 require "byebug"
 
 require_relative 'sexp_stemmer'
 
-Parser::Builders::Default.emit_lambda = true # opt-in to most recent AST format
 
 class SexpSummary < Struct.new(:glob, :exclusions)
   def sorted

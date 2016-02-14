@@ -1,6 +1,6 @@
 require 'parser/current'
-require 'active_support/core_ext/object'
-require 'active_support/core_ext/array'
+require 'active_support/core_ext/string'
+
 
 class FileSexp  < Struct.new(:filename)
   def self.for(filename)
@@ -58,6 +58,3 @@ class FileSexp  < Struct.new(:filename)
     end
   end
 end
-
-
-
