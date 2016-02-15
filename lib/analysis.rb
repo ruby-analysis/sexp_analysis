@@ -1,6 +1,7 @@
 require "byebug"
 
 require_relative 'sexp_stemmer'
+require_relative 'glob'
 
 
 class SexpSummary < Struct.new(:glob, :exclusions)
@@ -12,14 +13,21 @@ class SexpSummary < Struct.new(:glob, :exclusions)
     word_count.sort_by(&:last).reverse
   end
 
+  def sexp_contents
+    @sexp_contents ||= files.lazy.map do |f|
+      SexpStemmer.new(f).stemmed_strings
+    end
+  end
+
   private
 
   def word_count
     @word_count ||= WordCount.new
   end
 
-  def sexp_contents
-    @sexp_contents ||= GlobSexp.new(glob, exclusions).contents
+
+  def files
+    @files ||= Glob.new(glob, exclusions).files
   end
 end
 
@@ -31,30 +39,3 @@ class WordCount < Hash
     end
   end
 end
-
-
-class GlobSexp < Struct.new(:glob, :exclusions)
-  def contents
-    files.lazy.map do |f|
-      SexpStemmer.new(f).stemmed_strings
-    end
-  end
-
-  private
-
-  def files
-    @files ||= determine_files
-  end
-
-  def determine_files
-    files = Dir.glob(glob)
-
-    if exclusions && exclusions.length >= 0
-      files.reject{|f| f =~ %r{#{Regexp.escape(exclusions)}}}
-    end
-
-    files
-  end
-end
-
-

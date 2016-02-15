@@ -84,3 +84,17 @@ and try and infer usages.
 each file node in the directory strucutre.
 * Turn heuristic analysis into a useful metric for cohesiveness and highlight potential
 code/architectural issues like code climate.
+
+
+for each file
+  count each term (exclude stop words)
+    #find the main purpose of this file
+    most common terms get a multiplier
+
+for each term
+  calculate an incoherence value
+    add distance of directory traversals to other mentions
+    optionally: increase based on alphabetic distance within a directory
+
+add sum of terms in a file, gives an incoherence value
+

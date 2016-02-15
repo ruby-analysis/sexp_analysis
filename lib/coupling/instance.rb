@@ -15,6 +15,7 @@ module Coupling
       if message_sendable?(sexp)
         return sexp
       end
+
       return unless sexp.respond_to?(:children)
 
       sexp.children.map{|c| sendable_from(c) }.reject(&:blank?).compact.flatten

@@ -1,15 +1,15 @@
 class EfferentCoupling
-  def instance_coupling(instance)
-    instance.this_message
-    instance.that_message
-    instance.tons_more
+  def instance_coupling(some_instance)
+    some_instance.this_message
+    some_instance.that_message
+    some_instance.tons_more
   end
 
-  def more_instance_coupling(instance, another)
-    instance.this_message
-    instance.another_message
-    instance.yet_more
-    instance.here_we_go
+  def more_instance_coupling(some_instance, another)
+    some_instance.this_message
+    some_instance.another_message
+    some_instance.yet_more
+    some_instance.here_we_go
 
     another.message
     another.second_message

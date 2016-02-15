@@ -3,13 +3,37 @@ require_relative "instance"
 require "byebug"
 
 describe Coupling::Instance do
+  #s(:class,
+  #s(:const, nil, :EfferentCoupling), nil,
+  #s(:begin,
+  #  s(:def, :instance_coupling,
+  #    s(:args,
+  #      s(:arg, :some_instance)),
+  #    s(:begin,
+  #      s(:send,
+  #        s(:lvar, :some_instance), :this_message),      #sexp.children[2].children[1].children[2].children[0]
+  #      s(:send,
+  #        s(:lvar, :some_instance), :that_message),
+  #      s(:send,
+  #        s(:lvar, :some_instance), :tons_more))),
+  #  s(:def, :more_instance_coupling,
+  #    s(:args,
+  #      s(:arg, :some_instance)),
+  #    s(:begin,
+  #      s(:send,
+  #        s(:lvar, :some_instance), :another_message),
+  #      s(:send,
+  #        s(:lvar, :some_instance), :yet_more),
+  #      s(:send,
+  #        s(:lvar, :some_instance), :here_we_go)))))
+  #
   let(:sexp) { FileSexp.for("fixtures/instance_coupling.rb") }
 
   it do
     result = subject.instances(sexp)
 
     expect(result).to eq({
-      instance: {
+      some_instance: {
         this_message: 2,
         that_message: 1,
         tons_more: 1,
@@ -24,13 +48,13 @@ describe Coupling::Instance do
     })
   end
 
-    #s(:send,
-    #  s(:lvar, :instance), :this_message)
-    let(:sendable_node) {
-      sexp.children[2].children[1].children[2].children[0]
-    }
-  describe "message_sendable?" do
+  #s(:send,
+  #  s(:lvar, :some_instance), :this_message)
+  let(:sendable_node) {
+    sexp.children[2].children[1].children[2].children[0]
+  }
 
+  describe "message_sendable?" do
     it do
       expect(subject.message_sendable?(sexp)).to eq false
     end
@@ -42,7 +66,7 @@ describe Coupling::Instance do
 
   describe "sendable_name" do
     it do
-      expect(subject.sendable_name(sendable_node)).to eq :instance
+      expect(subject.sendable_name(sendable_node)).to eq :some_instance
     end
   end
 
@@ -67,33 +91,9 @@ describe Coupling::Instance do
       message
       second_message
       ).map &:to_sym
-      
+
     end
   end
 
-
-  #s(:class,
-  #s(:const, nil, :EfferentCoupling), nil,
-  #s(:begin,
-  #  s(:def, :instance_coupling,
-  #    s(:args,
-  #      s(:arg, :instance)),
-  #    s(:begin,
-  #      s(:send,
-  #        s(:lvar, :instance), :this_message),      #sexp.children[2].children[1].children[2].children[0]
-  #      s(:send,
-  #        s(:lvar, :instance), :that_message),
-  #      s(:send,
-  #        s(:lvar, :instance), :tons_more))),
-  #  s(:def, :more_instance_coupling,
-  #    s(:args,
-  #      s(:arg, :instance)),
-  #    s(:begin,
-  #      s(:send,
-  #        s(:lvar, :instance), :another_message),
-  #      s(:send,
-  #        s(:lvar, :instance), :yet_more),
-  #      s(:send,
-  #        s(:lvar, :instance), :here_we_go)))))
 end
 

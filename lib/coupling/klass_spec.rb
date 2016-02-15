@@ -3,7 +3,6 @@ require_relative "klass"
 
 describe Coupling::Klass do
   it do
-    byebug
     result = subject.klasses sexp
 
     expect(result).to eq [:EfferentCoupling, :This, :That,
