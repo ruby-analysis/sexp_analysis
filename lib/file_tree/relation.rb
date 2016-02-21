@@ -33,7 +33,7 @@ module FileTree
     def traversed_directories
       start_at_end = (start_path.file? && finish_path.directory?) || (start_path.directory? && finish_path.file?)
 
-      subset_to_traverse other_directories, start_path, finish_path, start_at_end: start_at_end
+      subset_to_traverse(other_directories, start_path, finish_path, start_at_end: start_at_end)
     end
 
     def subset_to_traverse(collection, start, finish, start_at_end: true)

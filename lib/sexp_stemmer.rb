@@ -24,7 +24,7 @@ class SexpStemmer < Struct.new(:filename)
 
   def decodify(w)
     w.underscore.
-      gsub("_", " ").
+      tr("_", " ").
       gsub(/[^\w ]/, " ")
   end
 
