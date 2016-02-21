@@ -1,7 +1,7 @@
 require "sexp"
 require_relative "./analysis"
 
-describe AnalysisSummary do
+describe SexpAnalysis::AnalysisSummary do
   let(:summary) { described_class.new("./fixtures/**/example.rb") }
 
 
@@ -28,7 +28,7 @@ describe AnalysisSummary do
   end
 end
 
-describe Counter do
+describe SexpAnalysis::Counter do
   it do
     subject.add *%w(egg cheese egg banana)
 

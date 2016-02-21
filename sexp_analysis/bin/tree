@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require './tree.rb'
+require 'sexp_analysis/tree.rb'
 
 def usage!
   puts "Usage #{__FILE__} <file_match> <search>"

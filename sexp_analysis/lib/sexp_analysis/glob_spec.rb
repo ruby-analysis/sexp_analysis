@@ -1,6 +1,6 @@
 require_relative "glob"
 
-describe Glob do
+describe SexpAnalysis::Glob do
   it do
     glob = described_class.new("./fixtures/**/*.rb")
 

@@ -1,6 +1,6 @@
 require_relative "file_sexp"
 
-describe FileSexp do
+describe SexpAnalysis::FileSexp do
   describe "#flattened_sexp" do
     it do
       file_sexp = described_class.new("./fixtures/example.rb")

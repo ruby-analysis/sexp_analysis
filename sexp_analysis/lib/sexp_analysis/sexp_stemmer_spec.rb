@@ -1,6 +1,6 @@
 require_relative 'sexp_stemmer'
 
-describe SexpStemmer do
+describe SexpAnalysis::SexpStemmer do
   it do
     stemmer = described_class.new("./fixtures/example.rb")
 
