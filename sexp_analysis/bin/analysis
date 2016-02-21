@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require './analysis'
+require "sexp_analysis"
 
 def usage!
   puts "Usage #{__FILE__} <file_match> <exclusions>"
