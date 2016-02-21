@@ -1,21 +1,6 @@
 require_relative "traversal_calculator"
 
 describe FileTree::TraversalCalculator do
-  def expand_fixture_path(path="")
-    s = File.join File.expand_path(fixture_path), path
-
-    Pathname.new(s).realpath
-  end
-
-  def fixture_path
-    Pathname.new("./fixtures/tree").realpath
-  end
-
-  def t(path)
-    Pathname.new(File.join(fixture_path, path)).realpath
-  end
-
-
   describe "#traversals_for" do
     it "file to file" do
       result = subject.traversals_for(t("another_top_level_file"), t("yet_another_file"))
