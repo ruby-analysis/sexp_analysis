@@ -1,10 +1,7 @@
-require "byebug"
-
 require_relative 'sexp_stemmer'
 require_relative 'glob'
 
-
-class SexpSummary < Struct.new(:glob, :exclusions)
+class AnalysisSummary < Struct.new(:glob, :exclusions)
   def sorted
     sexp_contents.each do |words|
       word_count.add(*words)
@@ -22,16 +19,15 @@ class SexpSummary < Struct.new(:glob, :exclusions)
   private
 
   def word_count
-    @word_count ||= WordCount.new
+    @word_count ||= Counter.new
   end
-
 
   def files
     @files ||= Glob.new(glob, exclusions).files
   end
 end
 
-class WordCount < Hash
+class Counter < Hash
   def add(*words)
     words.each do |word|
       self[word] ||= 0

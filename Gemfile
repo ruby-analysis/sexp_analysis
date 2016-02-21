@@ -4,6 +4,8 @@ gem "byebug"
 gem "stemmify"
 
 gem "sexp_processor"
+gem "rubytree"
+
 group :development do
   gem 'growl'
 end

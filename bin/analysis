@@ -13,7 +13,7 @@ usage!  unless ARGV.length >= 1
 
 glob       = ARGV[0]
 exclusions = ARGV[1]
-sorted     = SexpSummary.new(glob, exclusions).sorted
+sorted     = AnalysisSummary.new(glob, exclusions).sorted
 
 sorted.take(100).each do |w,c|
   $stdout.puts "#{c}\t#{w}\n"

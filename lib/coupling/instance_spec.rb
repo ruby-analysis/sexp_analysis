@@ -1,6 +1,5 @@
 require_relative "../file_sexp"
 require_relative "instance"
-require "byebug"
 
 describe Coupling::Instance do
   #s(:class,
