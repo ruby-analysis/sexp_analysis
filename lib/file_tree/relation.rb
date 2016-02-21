@@ -45,12 +45,8 @@ module FileTree
     private
 
     def indexes_from(collection, start, finish, start_at_end)
-      start_index  = collection.index start
+      start_index = index_from(collection, start, start_at_end: start_at_end)
       finish_index = collection.index finish
-
-      if start_index.nil?
-        start_index =  start_at_end ?  collection.length - 1 : 0
-      end
 
       if finish_index.nil?
         finish_index =  start_at_end ?   0 : collection.length - 1
@@ -61,6 +57,16 @@ module FileTree
       end
 
       [start_index, finish_index].sort
+    end
+
+    def index_from(collection, value, reverse: false, start_at_end: false)
+      index  = collection.index value
+
+      if index.nil?
+        index =  start_at_end ?  collection.length - 1 : 0
+      end
+
+      index
     end
 
     class RelatedPaths < Struct.new(:path)
