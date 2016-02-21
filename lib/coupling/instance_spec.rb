@@ -82,13 +82,15 @@ describe Coupling::Instance do
       expect(all_nodes).to eq true
       message_names = result.map{|r| r.children.last }
       expect(message_names).to eq %w(
-      this_message that_message tons_more
-      this_message
-      another_message
-      yet_more
-      here_we_go
-      message
-      second_message
+        this_message
+        that_message
+        tons_more
+        this_message
+        another_message
+        yet_more
+        here_we_go
+        message
+        second_message
       ).map &:to_sym
 
     end
