@@ -26,4 +26,4 @@ ratings:
   - "**.rb"
 exclude_paths:
 - spec/
-- *_spec.rb
+- "**_spec.rb"
