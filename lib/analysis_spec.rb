@@ -26,8 +26,6 @@ describe AnalysisSummary do
       [["Exampl", "Some", "Some", "Arg", "Some", "Another", "Arg"]]
     )
   end
-
-
 end
 
 describe Counter do

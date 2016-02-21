@@ -39,7 +39,7 @@ class FileSexp  < Struct.new(:filename)
   def to_a(sexp, filter=nil)
     return unless sexp
 
-    sexp.children.map &children_of(filter)
+    sexp.children.map(&children_of(filter))
   end
 
   def children_of(filter=nil)

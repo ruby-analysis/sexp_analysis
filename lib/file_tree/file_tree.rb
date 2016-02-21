@@ -9,15 +9,11 @@ module FileTree
     end
 
     def files
-      @files ||= glob.
-        select{|f| File.file?(f)}.
-        map{|d| self.class.new(d) }
+      @files ||= instantiate_sub_tree(:file?)
     end
 
     def directories
-      @directories ||= glob.
-        select{|f| File.directory?(f)}.
-        map{|d| self.class.new(d) }
+      @directories ||= instantiate_sub_tree(:directory?)
     end
 
     def distance_to(other)
@@ -26,8 +22,12 @@ module FileTree
 
     private
 
+    def instantiate_sub_tree(type)
+      glob.select(&type).map{|d| self.class.new(d.to_s) }
+    end
+
     def glob
-      Dir.glob(path + "/*")
+      Dir.glob(path + "/*").map{|f| Pathname.new(f)}
     end
   end
 end
