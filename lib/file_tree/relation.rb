@@ -56,7 +56,7 @@ module FileTree
         start_index, finish_index = finish_index, start_index
       end
 
-      collection[start_index..finish_index]
+      Array collection[start_index..finish_index]
     end
 
 
