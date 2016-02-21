@@ -1,7 +1,7 @@
 require_relative "../file_sexp"
 require_relative "klass"
 
-describe Coupling::Klass do
+describe SexpAnalysis::Coupling::Klass do
   it do
     result = subject.klasses sexp
 

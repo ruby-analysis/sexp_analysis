@@ -1,7 +1,7 @@
 require_relative "../file_sexp"
 require_relative "instance"
 
-describe Coupling::Instance do
+describe SexpAnalysis::Coupling::Instance do
   #s(:class,
   #s(:const, nil, :EfferentCoupling), nil,
   #s(:begin,
