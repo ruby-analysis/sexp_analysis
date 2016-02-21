@@ -37,6 +37,14 @@ module FileTree
     end
 
     def subset_to_traverse(collection, start, finish, start_at_end: true)
+      start_index, finish_index = indexes_from(collection, start, finish, start_at_end)
+
+      Array collection[start_index..finish_index]
+    end
+
+    private
+
+    def indexes_from(collection, start, finish, start_at_end)
       start_index  = collection.index start
       finish_index = collection.index finish
 
@@ -52,13 +60,8 @@ module FileTree
         finish_index = collection.length - 1
       end
 
-      if start_index > finish_index
-        start_index, finish_index = finish_index, start_index
-      end
-
-      Array collection[start_index..finish_index]
+      [start_index, finish_index].sort
     end
-
 
     class RelatedPaths < Struct.new(:path)
       def files
