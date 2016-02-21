@@ -45,12 +45,8 @@ module FileTree
     private
 
     def indexes_from(collection, start, finish, start_at_end)
-      start_index = index_from(collection, start, start_at_end: start_at_end)
-      finish_index = collection.index finish
-
-      if finish_index.nil?
-        finish_index =  start_at_end ?   0 : collection.length - 1
-      end
+      start_index  = index_from(collection, start,  start_at_end: start_at_end)
+      finish_index = index_from(collection, finish, start_at_end: start_at_end, reverse: true)
 
       if start_index.zero? && finish_index.zero?
         finish_index = collection.length - 1
@@ -63,7 +59,7 @@ module FileTree
       index  = collection.index value
 
       if index.nil?
-        index =  start_at_end ?  collection.length - 1 : 0
+        index =  start_at_end && !reverse ?  collection.length - 1 : 0
       end
 
       index
