@@ -19,53 +19,45 @@ describe FileTree::TraversalCalculator do
   describe "#traversals_for" do
     it "file to file" do
       result = subject.traversals_for(t("another_top_level_file"), t("yet_another_file"))
-      expect(result).to eq [FileTree::SiblingFile]
+      expect(result).to eq FileTree::SiblingFile
     end
 
     it "directory to parent directory" do
-      expect(subject.traversals_for(t("sub_directory"),t("."))).to eq [
-        FileTree::SiblingDirectoryThenParentDirectory,
-      ]
+      expect(subject.traversals_for(t("sub_directory"),t("."))).
+        to eq FileTree::SiblingDirectoryThenParentDirectory
     end
 
     it "file to file in sub directory" do
-      expect(subject.traversals_for(t("some_file"),t("sub_directory"))).to eq [
-        FileTree::SiblingFileThenDirectory,
-      ]
+      expect(subject.traversals_for(t("some_file"),t("sub_directory"))).
+        to eq FileTree::SiblingFileThenDirectory
 
-      expect(subject.traversals_for(t("sub_directory"),t("sub_directory/file_in_sub_directory"))).to eq [
-        FileTree::ChildFile,
-      ]
+      expect(subject.traversals_for(t("sub_directory"),t("sub_directory/file_in_sub_directory"))).
+        to eq FileTree::ChildFile
     end
 
     it "directory to sibling directory" do
-      expect(subject.traversals_for(t("sub_directory"),t("another_sub_directory"))).to eq [
-        FileTree::SiblingDirectory
-      ]
+      expect(subject.traversals_for(t("sub_directory"),t("another_sub_directory"))).
+        to eq FileTree::SiblingDirectory 
     end
 
     it "file to directory" do
-      expect(subject.traversals_for(t("some_file"),t("."))).to eq [
-        FileTree::SiblingFileThenDirectoryThenParentDirectory
-      ]
+      expect(subject.traversals_for(t("some_file"),t("."))).
+        to eq FileTree::SiblingFileThenDirectoryThenParentDirectory
     end
 
     it "directory to file" do
-      expect(subject.traversals_for(t("."),t("some_file"))).to eq [
-        FileTree::ChildFile,
-      ]
+      expect(subject.traversals_for(t("."),t("some_file"))).
+        to eq FileTree::ChildFile
     end
 
     it "sub directory to file" do
-      expect(subject.traversals_for(t("sub_directory"),t("some_file"))).to eq [
-        FileTree::SiblingDirectoryThenFile,
-      ]
+      expect(subject.traversals_for(t("sub_directory"),t("some_file"))).
+        to eq FileTree::SiblingDirectoryThenFile
     end
 
     it "file to sub directory" do
-      expect(subject.traversals_for(t("some_file"),t("sub_directory"))).to eq [
-        FileTree::SiblingFileThenDirectory,
-      ]
+      expect(subject.traversals_for(t("some_file"),t("sub_directory"))).
+        to eq FileTree::SiblingFileThenDirectory
     end
 
 

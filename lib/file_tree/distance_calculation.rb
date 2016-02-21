@@ -1,23 +1,31 @@
 require_relative "traversal_calculator"
 
 module FileTree
-  class Distance < Struct.new(:path_a, :path_b)
+  class DistanceCalculation < Struct.new(:path_a, :path_b)
     attr_reader :traversal_a, :traversal_b
 
     def traversals_for(a,b)
       TraversalCalculator.new.traversals_for(a,b)
     end
 
-    def traversal_klasses
+    def traversals
       result = []
       path = traversal_path
 
       path.each_cons(2) do |start, finish|
-        klasses = traversals_for(start, finish)
-        result.push(klasses.map{|k| k.new(start, finish)})
+        klass = traversals_for(start, finish)
+        result.push(klass.new(start, finish))
       end
 
-      result.flatten
+      result
+    end
+
+    def sum_traversals
+      traversals.inject(0){|sum,i| sum + i.distance }
+    end
+
+    def sum_possible_traversals
+      traversals.inject(0){|sum,i| sum + i.possible_length }
     end
 
     def sibling_directories(path)
@@ -33,12 +41,6 @@ module FileTree
       return false if path.directory?
 
       path_b.dirname == path
-    end
-
-    def distance(a, b, list)
-      start_index = list.index{|f| a == f }
-      finish_index = list.index{|f| b == f }
-      (finish_index - start_index).abs
     end
 
     def traversal_path

@@ -1,15 +1,15 @@
 require_relative "file_tree"
-require_relative "distance"
+require_relative "distance_calculation"
 
-describe FileTree::Distance do
-  let(:distance) { described_class.new(a,b) }
+describe FileTree::DistanceCalculation do
+  let(:distance_calculation) { described_class.new(a,b) }
 
   describe "#traversal_path" do
     let(:a) { t("another_top_level_file") }
     let(:b) { t("yet_another_file") }
 
     it do
-      expect(distance.traversal_path).to eq [
+      expect(distance_calculation.traversal_path).to eq [
         expand_fixture_path("another_top_level_file"),
         expand_fixture_path("yet_another_file"),
       ]
@@ -21,7 +21,7 @@ describe FileTree::Distance do
 
 
       it do
-        result = distance.traversal_path
+        result = distance_calculation.traversal_path
 
         expect(result).to eq [
           expand_fixture_path("some_file"),
@@ -38,7 +38,7 @@ describe FileTree::Distance do
 
 
     it do
-      result = distance.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
+      result = distance_calculation.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
         expand_fixture_path("some_file"),
         expand_fixture_path(""),
         expand_fixture_path("/sub_directory"),
@@ -51,7 +51,7 @@ describe FileTree::Distance do
     end
 
     it do
-      result = distance.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
+      result = distance_calculation.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
         expand_fixture_path("another_sub_directory/another_file"),
         expand_fixture_path("another_sub_directory"),
         expand_fixture_path("another_sub_directory/yet_another_file"),
@@ -69,7 +69,7 @@ describe FileTree::Distance do
     end
 
     it do
-      result = distance.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
+      result = distance_calculation.remove_traversals_from_files_to_parents_then_back_down_to_sub_directories [
         expand_fixture_path(""),
         expand_fixture_path("/sub_directory"),
       ]
@@ -86,12 +86,12 @@ describe FileTree::Distance do
     let(:b) { t("sub_directory/file_in_sub_directory") }
 
     it do
-      expect(distance.traversal_klasses.map(&:class)).to eq [
+      expect(distance_calculation.traversals.map(&:class)).to eq [
         FileTree::SiblingFileThenDirectory,
         FileTree::ChildFile
       ]
 
-      files = distance.traversal_klasses.first.traversed_files
+      files = distance_calculation.traversals.first.traversed_files
 
       match_file_array files, %w[
         some_file
@@ -101,13 +101,14 @@ describe FileTree::Distance do
     end
 
     it do
-      files = distance.traversal_klasses.last.traversed_files
+      files = distance_calculation.traversals.last.traversed_files
+
       match_file_array files, %w[
         sub_directory/even_more
         sub_directory/file_in_sub_directory
       ]
 
-      expect(distance.traversal_klasses.map(&:distance)).to match_array [
+      expect(distance_calculation.traversals.map(&:distance)).to match_array [
         3 + 2, #files then directories
         3 + 2, #directories then files
       ]
@@ -115,12 +116,12 @@ describe FileTree::Distance do
   end
 
 
-  describe "#traversal_klasses" do
+  describe "#traversals" do
     let(:a) { t("another_top_level_file") }
     let(:b) { t("yet_another_file") }
 
     it do
-      expect(distance.traversal_klasses.map(&:class)).to eq [
+      expect(distance_calculation.traversals.map(&:class)).to eq [
         FileTree::SiblingFile
       ]
     end
@@ -130,7 +131,7 @@ describe FileTree::Distance do
       let(:b) { t("another_sub_directory/another_file") }
 
       it do
-        expect(distance.traversal_klasses.map(&:class)).to eq [
+        expect(distance_calculation.traversals.map(&:class)).to eq [
           FileTree::SiblingFileThenDirectoryThenParentDirectory,
           FileTree::SiblingDirectory,
           FileTree::ChildFile
@@ -141,46 +142,21 @@ describe FileTree::Distance do
 
   end
 
-  describe "#possible_traversals" do
-    pending do
-      expect(distance.possible_traversals).to eq [
-        FileTree::SiblingFile.new(3),
-        FileTree::SiblingDirectory.new(3)
-      ]
-    end
-
-    pending do
-      expect(distance.possible_traversals).to eq [
-        FileTree::SiblingFile.new(4),
-        FileTree::SiblingDirectory.new(2),
-        FileTree::ChildDirectory.new(1),
-        FileTree::SiblingFile.new(2),
-        FileTree::SiblingDirectory.new(3),
-      ]
-    end
-  end
-
   describe "#sum_traversals" do
     let(:a) { t("another_top_level_file") }
     let(:b) { t("yet_another_file") }
 
-
-    pending do
-      expect(distance.sum_traversals).to eq 3
-    end
-
-    pending do
-      expect(distance.sum_traversals).to eq 3 + 1 + 1 + 3 + 1
+    it do
+      expect(distance_calculation.sum_traversals).to eq 4
     end
   end
 
   describe "#sum_possible_traversals" do
-    pending do
-      expect(distance.sum_possible_traversals).to eq 3 + 3
-    end
+    let(:a) { t("another_top_level_file") }
+    let(:b) { t("yet_another_file") }
 
-    pending do
-      expect(distance.sum_possible_traversals).to eq 4 + 2 + 1 + 3 + 2
+    it do
+      expect(distance_calculation.sum_possible_traversals).to eq 4 + 3
     end
   end
 
@@ -188,9 +164,8 @@ describe FileTree::Distance do
     let(:a) { t("some_file") }
     let(:b) { t("sub_directory/file_in_sub_directory") }
 
-
     it do
-      result = distance.top_ancestor
+      result = distance_calculation.top_ancestor
 
       expect(result).to eq fixture_path
     end

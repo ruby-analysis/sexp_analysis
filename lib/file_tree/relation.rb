@@ -9,12 +9,23 @@ module FileTree
     end
 
     def distance
+      if start_path.file? && finish_path.file?
+        return traversed_files.length
+      end
+
+      if start_path.directory? && finish_path.directory?
+        return  traversed_directories.length
+      end
+
       traversed_files.length + traversed_directories.length
     end
 
+    def possible_length
+      other_files.length + other_directories.length
+    end
+
     def traversed_files
-      start_at_end =
-        (start_path.file? && finish_path.directory?) 
+      start_at_end = (start_path.file? && finish_path.directory?)
 
       subset_to_traverse(other_files, start_path, finish_path, start_at_end: start_at_end)
     end

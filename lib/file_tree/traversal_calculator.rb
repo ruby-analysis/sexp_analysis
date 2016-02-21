@@ -14,54 +14,54 @@ module FileTree
 
     def handle_both_files(a,b)
       if a.dirname == b.dirname
-        return [SiblingFile]
+        return SiblingFile
       end
       if (a + ".." == b)
-        return [SiblingFileThenDirectoryThenParentDirectory]
+        return SiblingFileThenDirectoryThenParentDirectory
       end
 
       if (b + ".." == a)
-        return [SiblingFileThenDirectory]
+        return SiblingFileThenDirectory
       end
     end
 
     def handle_file_and_directory(a,b)
       if a.dirname ==b.dirname
-        return [SiblingFileThenDirectory]
+        return SiblingFileThenDirectory
       end
 
       if (a + ".." == b)
-        return [SiblingFileThenDirectoryThenParentDirectory]
+        return SiblingFileThenDirectoryThenParentDirectory
       end
 
       if (b + ".." == a)
-        return [ChildDirectory]
+        return ChildDirectory
       end
     end
 
     def handle_directory_and_file(a,b)
       if a.dirname ==b.dirname
-        return [SiblingDirectoryThenFile ]
+        return SiblingDirectoryThenFile 
       end
       if (a + ".." == b)
-        return [ParentDirectory]
+        return ParentDirectory
       end
 
       if (b + ".." == a)
-        return [ChildFile]
+        return ChildFile
       end
     end
 
     def handle_both_directories(a,b)
       if a.dirname ==b.dirname
-        return [SiblingDirectory]
+        return SiblingDirectory
       end
       if (a + ".." == b)
-        return [SiblingDirectoryThenParentDirectory]
+        return SiblingDirectoryThenParentDirectory
       end
 
       if (b + ".." == a)
-        return [SiblingDirectoryThenChildDirectory]
+        return SiblingDirectoryThenChildDirectory
       end
     end
   end

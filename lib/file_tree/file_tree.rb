@@ -1,4 +1,4 @@
-require_relative "distance"
+require_relative "distance_calculation"
 
 module FileTree
   class FileTree
@@ -21,7 +21,7 @@ module FileTree
     end
 
     def distance_to(other)
-      Distance.new(self, other)
+      DistanceCalculation.new(self, other)
     end
 
     private
