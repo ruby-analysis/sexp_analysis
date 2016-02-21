@@ -1,5 +1,6 @@
 require 'stemmify'
 require_relative 'file_sexp'
+require_relative 'stop_words'
 
 class SexpStemmer < Struct.new(:filename)
   def stemmed_strings
@@ -22,19 +23,14 @@ class SexpStemmer < Struct.new(:filename)
       map(&:stem)
   end
 
+  def stop_words
+    @@stop_words ||= STOP_WORDS.map{|w| format_word(w)}.flatten
+  end
+
   def decodify(w)
     w.underscore.
       tr("_", " ").
       gsub(/[^\w ]/, " ")
-  end
-
-  def stop_words
-    @@stop_words ||= define_stop_words
-  end
-
-  def define_stop_words
-    stop_words = eval File.read("./stop_words")
-    stop_words.map {|w| format_word(w)}.flatten
   end
 end
 

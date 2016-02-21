@@ -1,4 +1,4 @@
-%w[
+STOP_WORDS = %w[
 BEGIN   END   __ENCODING__   __END__   __FILE__   __LINE__   alias   and
   begin   break   case   class   def   defined?   do   else   elsif   end
   ensure   false   for   if   in   module   next   nil   not   or   redo
@@ -201,4 +201,3 @@ belongs_to_counter_cache_after_update
   json
 
 ]
-
