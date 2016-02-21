@@ -87,14 +87,29 @@ describe FileTree::Distance do
 
     it do
       expect(distance.traversal_klasses.map(&:class)).to eq [
-        FileTree::SiblingFile,
-        FileTree::SiblingDirectory,
+        FileTree::SiblingFileThenDirectory,
         FileTree::ChildFile
       ]
+
+      files = distance.traversal_klasses.first.traversed_files
+
+      match_file_array files, %w[
+        some_file
+        even_more
+        another_top_level_file
+      ]
+    end
+
+    it do
+      files = distance.traversal_klasses.last.traversed_files
+      match_file_array files, %w[
+        sub_directory/even_more
+        sub_directory/file_in_sub_directory
+      ]
+
       expect(distance.traversal_klasses.map(&:distance)).to match_array [
-        2,  # FileTree::SiblingFile
-        1,  # FileTree::SiblingDirectory
-        1   # FileTree::ChildFile
+        3 + 2, #files then directories
+        3 + 2, #directories then files
       ]
     end
   end
@@ -116,9 +131,7 @@ describe FileTree::Distance do
 
       it do
         expect(distance.traversal_klasses.map(&:class)).to eq [
-          FileTree::SiblingFile,
-          FileTree::SiblingDirectory,
-          FileTree::ParentDirectory,
+          FileTree::SiblingFileThenDirectoryThenParentDirectory,
           FileTree::SiblingDirectory,
           FileTree::ChildFile
         ]

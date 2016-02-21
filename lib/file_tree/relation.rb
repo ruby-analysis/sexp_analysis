@@ -8,15 +8,46 @@ module FileTree
       RelatedPaths.new(start_path).directories
     end
 
+    def distance
+      traversed_files.length + traversed_directories.length
+    end
+
     def traversed_files
-      index = other_files.index start_path
-      other_files[0..index]
+      start_at_end =
+        (start_path.file? && finish_path.directory?) 
+
+      subset_to_traverse(other_files, start_path, finish_path, start_at_end: start_at_end)
     end
 
     def traversed_directories
-      index = other_directories.index finish_path
-      other_directories[index..-1]
+      start_at_end = (start_path.file? && finish_path.directory?) || (start_path.directory? && finish_path.file?)
+
+      subset_to_traverse other_directories, start_path, finish_path, start_at_end: start_at_end
     end
+
+    def subset_to_traverse(collection, start, finish, start_at_end: true)
+      start_index  = collection.index start
+      finish_index = collection.index finish
+
+      if start_index.nil?
+        start_index =  start_at_end ?  collection.length - 1 : 0
+      end
+
+      if finish_index.nil?
+        finish_index =  start_at_end ?   0 : collection.length - 1
+      end
+
+      if start_index.zero? && finish_index.zero?
+        finish_index = collection.length - 1
+      end
+
+      if start_index > finish_index
+        start_index, finish_index = finish_index, start_index
+      end
+
+      collection[start_index..finish_index]
+    end
+
 
     class RelatedPaths < Struct.new(:path)
       def files
@@ -41,12 +72,23 @@ module FileTree
     end
   end
 
-  ChildFile        = Class.new Relation
+  class ChildFile        < Relation
+    def other_files
+      RelatedPaths.new(start_path + "*").files
+    end
+
+    def other_directories
+      RelatedPaths.new(start_path + "*").directories
+    end
+  end
+
+
   SiblingDirectory = Class.new Relation
   ChildDirectory   = Class.new Relation
   ParentDirectory  = Class.new Relation
 
-  class SiblingFileThenDirectoryThenParentDirectory < Relation
-
-  end
+  SiblingFileThenDirectoryThenParentDirectory = Class.new Relation
+  SiblingFileThenDirectory = Class.new Relation
+  SiblingDirectoryThenFile = Class.new Relation
+  SiblingDirectoryThenParentDirectory = Class.new Relation
 end

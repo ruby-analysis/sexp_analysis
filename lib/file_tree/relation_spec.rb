@@ -75,16 +75,104 @@ describe FileTree::Relation do
 #      some_file
 #      yet_another_file
 end
-  def match_file_array(a,b)
-    expect(a).to match_array b.map{|f| Pathname.new(t f)}
-  end
 
 
 
 describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
   let(:instance) { described_class.new(a,b) }
-  let(:b) { t("sub_directory") }
   let(:a) { t("sub_directory/file_in_sub_directory") }
+  let(:b) { t("sub_directory") }
+
+
+  describe "#subset_to_traverse" do
+    it "whole collection" do
+      result =instance.subset_to_traverse(
+        [ 1,2,3,4], 1, 4
+      )
+
+      expect(result).to eq [1,2,3,4]
+    end
+
+    it "with missing finish" do
+      result =instance.subset_to_traverse(
+        [ 1,2,3,4], 1, 5
+      )
+
+      expect(result).to eq [1,2,3,4]
+    end
+
+    it "return directories from file to directory " do
+      file1 = double "file1", file?: true, directory?: false
+      dir2 = double "dir2", file?: false, directory?: true
+
+      result =instance.subset_to_traverse(
+        ["dir1", dir2, "dir3", "dir4"],
+        file1, dir2, start_at_end: true
+      )
+
+      expect(result).to eq [dir2, "dir3", "dir4"]
+    end
+
+    it "return directories from file to directory " do
+      file1 = double "file1", file?: true, directory?: false
+      dir2 = double "dir2", file?: false, directory?: true
+
+      result =instance.subset_to_traverse(
+        ["dir1", dir2, "dir3", "dir4"],
+        file1, dir2
+      )
+
+      expect(result).to eq [dir2, "dir3", "dir4"]
+    end
+
+    it "with both missing" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 10, 5
+      )
+
+      expect(result).to eq [1,2,3,4]
+    end
+
+    it "all reversed order" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 4, 1
+      )
+
+      expect(result).to eq [1,2,3,4]
+    end
+
+    it "subset" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 2, 3
+      )
+
+      expect(result).to eq [2,3]
+    end
+
+    it "subset until last element" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 2, 4
+      )
+
+      expect(result).to eq [2,3,4]
+    end
+
+    it "reversed subset" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 3, 2
+      )
+
+      expect(result).to eq [2,3]
+    end
+
+    it "reversed subset from last element" do
+      result = instance.subset_to_traverse(
+        [ 1,2,3,4], 4, 2
+      )
+
+      expect(result).to eq [2,3,4]
+    end
+  end
 
   it do
     match_file_array instance.other_files, %w(
@@ -96,6 +184,7 @@ describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
 
   context "traversing all files" do
     let(:a) { t("sub_directory/some_more") }
+    let(:b) { t("sub_directory") }
 
     it do
       match_file_array instance.traversed_files, %w(
@@ -108,10 +197,23 @@ describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
 
   context "traversing some files" do
     let(:a) { t("sub_directory/file_in_sub_directory") }
+    let(:b) { t("sub_directory") }
 
     it do
       match_file_array instance.traversed_files, %w(
         sub_directory/even_more
+        sub_directory/file_in_sub_directory
+    )
+    end
+  end
+
+  context "traversing up some files" do
+    let(:a) { t("sub_directory/some_more") }
+    let(:b) { t("sub_directory/file_in_sub_directory") }
+
+    it do
+      match_file_array instance.traversed_files, %w(
+        sub_directory/some_more
         sub_directory/file_in_sub_directory
     )
     end
@@ -125,7 +227,7 @@ describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
     )
   end
 
-  context "traversing some directories" do
+  context "traversing up some directories" do
     let(:a) { t("sub_directory/file_in_sub_directory") }
     let(:b) { t("sub_directory/second_level") }
 
@@ -133,10 +235,46 @@ describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
       match_file_array instance.traversed_directories, %w(
         sub_directory/yet_another_directory
         sub_directory/second_level
+      )
+    end
+  end
+
+  context "traversing down all directories" do
+    let(:a) { t("sub_directory/another_directory") }
+    let(:b) { t("sub_directory/yet_another_directory") }
+
+    it do
+      match_file_array instance.traversed_directories, %w(
+        sub_directory/another_directory
+        sub_directory/second_level
+        sub_directory/yet_another_directory
+      )
+    end
+  end
+
+  context "traversing down some directories" do
+    let(:a) { t("sub_directory/another_directory") }
+    let(:b) { t("sub_directory/second_level") }
+
+    it do
+      match_file_array instance.traversed_directories, %w(
+        sub_directory/another_directory
+        sub_directory/second_level
     )
     end
   end
 
+  context "traversing down some directories" do
+    let(:a) { t("sub_directory/second_level") }
+    let(:b) { t("sub_directory/yet_another_directory") }
+
+    it do
+      match_file_array instance.traversed_directories, %w(
+        sub_directory/second_level
+        sub_directory/yet_another_directory
+    )
+    end
+  end
   context "traversing all directories" do
     let(:a) { t("sub_directory/file_in_sub_directory") }
     let(:b) { t("sub_directory/another_directory") }
