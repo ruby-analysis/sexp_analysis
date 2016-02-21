@@ -87,7 +87,7 @@ describe FileTree::DistanceCalculation do
 
     it do
       expect(distance_calculation.traversals.map(&:class)).to eq [
-        FileTree::SiblingFileThenDirectory,
+        FileTree::Relation,
         FileTree::ChildFile
       ]
 
@@ -122,7 +122,7 @@ describe FileTree::DistanceCalculation do
 
     it do
       expect(distance_calculation.traversals.map(&:class)).to eq [
-        FileTree::SiblingFile
+        FileTree::Relation
       ]
     end
 
@@ -132,8 +132,8 @@ describe FileTree::DistanceCalculation do
 
       it do
         expect(distance_calculation.traversals.map(&:class)).to eq [
-          FileTree::SiblingFileThenDirectoryThenParentDirectory,
-          FileTree::SiblingDirectory,
+          FileTree::Relation,
+          FileTree::Relation,
           FileTree::ChildFile
         ]
       end

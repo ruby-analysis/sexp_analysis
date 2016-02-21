@@ -78,7 +78,7 @@ end
 
 
 
-describe FileTree::SiblingFileThenDirectoryThenParentDirectory do
+describe FileTree::Relation do
   let(:instance) { described_class.new(a,b) }
   let(:a) { t("sub_directory/file_in_sub_directory") }
   let(:b) { t("sub_directory") }

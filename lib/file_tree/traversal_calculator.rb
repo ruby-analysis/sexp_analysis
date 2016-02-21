@@ -12,39 +12,46 @@ module FileTree
       raise NotImplementedError
     end
 
-    def handle_both_files(a,b)
-      if a.dirname == b.dirname
-        return SiblingFile
-      end
-      if (a + ".." == b)
-        return SiblingFileThenDirectoryThenParentDirectory
-      end
-
-      if (b + ".." == a)
-        return SiblingFileThenDirectory
+    class Internal < Struct.new(:a,:b)
+      def same_directory?
+        a.dirname == b.dirname
       end
     end
 
-    def handle_file_and_directory(a,b)
-      if a.dirname ==b.dirname
-        return SiblingFileThenDirectory
+    def handle_both_files(a, b)
+      if a.dirname == b.dirname
+        return Relation
       end
-
       if (a + ".." == b)
-        return SiblingFileThenDirectoryThenParentDirectory
+        return Relation
       end
 
       if (b + ".." == a)
-        return ChildDirectory
+        return Relation
+      end
+    end
+
+    def handle_file_and_directory(a, b)
+      if a.dirname == b.dirname
+        return Relation
+      end
+
+      if (a + ".." == b)
+        return Relation
+      end
+
+      if (b + ".." == a)
+        return Relation
       end
     end
 
     def handle_directory_and_file(a,b)
-      if a.dirname ==b.dirname
-        return SiblingDirectoryThenFile 
+      if a.dirname == b.dirname
+        return Relation
       end
+
       if (a + ".." == b)
-        return ParentDirectory
+        return Relation
       end
 
       if (b + ".." == a)
@@ -54,14 +61,14 @@ module FileTree
 
     def handle_both_directories(a,b)
       if a.dirname ==b.dirname
-        return SiblingDirectory
+        return Relation
       end
       if (a + ".." == b)
-        return SiblingDirectoryThenParentDirectory
+        return Relation
       end
 
       if (b + ".." == a)
-        return SiblingDirectoryThenChildDirectory
+        return Relation
       end
     end
   end

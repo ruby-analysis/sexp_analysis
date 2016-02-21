@@ -77,12 +77,6 @@ module FileTree
     end
   end
 
-  class SiblingFile < Relation
-    def self.any?(path)
-      new(path).others.length > 0
-    end
-  end
-
   class ChildFile        < Relation
     def other_files
       RelatedPaths.new(start_path + "*").files
@@ -92,14 +86,4 @@ module FileTree
       RelatedPaths.new(start_path + "*").directories
     end
   end
-
-
-  SiblingDirectory = Class.new Relation
-  ChildDirectory   = Class.new Relation
-  ParentDirectory  = Class.new Relation
-
-  SiblingFileThenDirectoryThenParentDirectory = Class.new Relation
-  SiblingFileThenDirectory = Class.new Relation
-  SiblingDirectoryThenFile = Class.new Relation
-  SiblingDirectoryThenParentDirectory = Class.new Relation
 end
