@@ -2,7 +2,25 @@
 
 ##A `SOLID CASE` for application architecture
 
-##The more technical explanation
+# In one simple question:
+> How can I fit more related things together on screen?
+
+#The problem
+
+> When editing this massive Rails project,
+> I find myself scrolling up and down the file browser and forgetting where I
+> am in the codebase or what I was trying to find.
+>
+> It's OK when I know the name
+> of the file I'm looking for, but it's awful when I am not sure or can't
+> remember what to look for.
+
+> Also having tons of small objects is great. But
+> understanding the dependencies between code that is many levels of
+> directories away from other related code seems painful.
+
+
+##The lesser known SOLID principles
 The aim of this project is to aid ruby developers in spotting, understanding and
 fixing violations of some of the 6 lesser known package-related SOLID principles.
 These principles broadly correspond to:
@@ -40,23 +58,6 @@ In less technical terms I want to be able to answer the following questions:
 > How can I refactor or organize my code to better match the domain?
 
 > What are some specific examples of coupling between objects that are not located together?
-
-#The really dumbed down version
-
-> When editing this massive Rails project,
-> I find myself scrolling up and down the file browser and forgetting where I
-> am in the codebase or what I was trying to find.
->
-> It's OK when I know the name
-> of the file I'm looking for, but it's awful when I am not sure or can't
-> remember what to look for.
-
-> Also having tons of small objects is great. But
-> understanding the dependencies between code that is many levels of
-> directories away from other related code seems painful.
-
-# In one simple question:
-> How can I fit more related things together on screen?
 
 
 #Hypothesis
