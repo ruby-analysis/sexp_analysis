@@ -61,8 +61,8 @@ successful founded startups are likely to have considerable technical debt.
 Often developers at startups are at the beginning of their careers and may cut
 corners in order to get to market. 
 
-Rails itself is an example of software that helps you quickly build applications
-but doesn't provide much of a helping hand for scaling the complexity of the codebase up.
+Rails helps you quickly build applications but doesn't provide much of a
+helping hand for scaling the complexity of the codebase up.
 
 Namespaced Engines are an example that helps, but I've rarely seen them used,
 or when used, rarely seen them used properly.
