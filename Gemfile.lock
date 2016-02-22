@@ -3,6 +3,7 @@ PATH
   specs:
     sexp_analysis (0.1.0)
       activesupport
+      colorize
       parser
       rubytree
       sexp_processor
@@ -20,6 +21,7 @@ GEM
     ast (2.2.0)
     byebug (8.2.2)
     coderay (1.1.1)
+    colorize (0.7.7)
     diff-lcs (1.2.5)
     ffi (1.9.10)
     formatador (0.2.5)
