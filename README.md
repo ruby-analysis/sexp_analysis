@@ -16,12 +16,15 @@ CASE is an easy to remember acronym, but the letters map to 6 principles
 
 Specifically the principles are:
 
-* CCP - Common Closure Principle
-* CRP - Common Reuse Principle
-* ADP - Acyclic Dependencies Principle
-* SAP - Stable Abstractions Principle
-* SDP - Stable Dependencies Principle
-* REP - Release Reuse Equivalency Principle
+* Cohesion -----> CCP - Common Closure Principle
+*           \---> CRP - Common Reuse Principle
+* Acyclicity ---> ADP - Acyclic Dependencies Principle
+* Stability  ---> SAP - Stable Abstractions Principle
+*           \---> SDP - Stable Dependencies Principle
+* Equivalence --> REP - Release Reuse Equivalency Principle
+
+The `E` of `CASE` is a bit contrived and would be better as an `R`
+but we were trying to make it easy to remember :)
 
 You can read about them in the [Original Paper](http://web.archive.org/web/20020217194239/http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF)
 
