@@ -100,7 +100,7 @@ a piece of functionality into an engine.
 I also bet that organizing a really simple blog application based on domain concepts mapping to
 domain folders is also overkill.
 
-So the question is this:
+So the questions to answer are:
 
 > Can I create a metric that gives a good feel for how coupled/cohesive/spaghetti-like a codebase is?
 
