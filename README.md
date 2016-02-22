@@ -57,10 +57,13 @@ In less technical terms I want to be able to answer the following questions:
 #Hypothesis
 I think that Rails is great, but I think that most large Rails apps built by 
 successful founded startups are likely to have considerable technical debt.
+
 Often developers at startups are at the beginning of their careers and may cut
 corners in order to get to market. 
+
 Rails itself is an example of software that helps you quickly build applications
 but doesn't provide much of a helping hand for scaling the complexity of the codebase up.
+
 Namespaced Engines are an example that helps, but I've rarely seen them used,
 or when used, rarely seen them used properly.
 
@@ -90,8 +93,10 @@ If you've read this far, I'm sure you can guess which one I think is the correct
 But I want to answer this with data.
 
 I bet that @dhh and all the guys writing basecamp etc _do_ write well organized code.
+
 I suspect that they know or feel exactly what and when is the right code and time to extract
 a piece of functionality into an engine.
+
 I also bet that organizing a really simple blog application based on domain concepts mapping to
 domain folders is also overkill.
 
