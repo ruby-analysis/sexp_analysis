@@ -1,5 +1,5 @@
 require "sexp"
-require_relative "./analysis"
+require_relative "analysis_summary"
 
 describe SexpAnalysis::AnalysisSummary do
   let(:summary) { described_class.new("./fixtures/**/example.rb") }
