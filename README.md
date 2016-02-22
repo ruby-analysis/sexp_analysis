@@ -31,16 +31,22 @@ You can read about them in the [Original Paper](http://web.archive.org/web/20020
 In less technical terms I want to be able to answer the following questions:
 
 > What are the main domain concepts in my application?
+
 > How can I refactor or organize my code to better match the domain?
+
 > What are some specific examples of coupling between objects that are not located together?
 
 #The really dumbed down version
 
 > When editing this massive Rails project,
 > I find myself scrolling up and down the file browser and forgetting where I
-> am in the codebase or what I was trying to find. It's OK when I know the name
+> am in the codebase or what I was trying to find.
+>
+> It's OK when I know the name
 > of the file I'm looking for, but it's awful when I am not sure or can't
-> remember what to look for.  Also having tons of small objects is great. But
+> remember what to look for.
+
+> Also having tons of small objects is great. But
 > understanding the dependencies between code that is many levels of
 > directories away from other related code seems painful.
 
