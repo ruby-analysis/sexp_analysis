@@ -1,6 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'sexp_analysis/version'
 
 Gem::Specification.new do |spec|
@@ -19,11 +20,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "guard-rspec"
 
+  spec.add_dependency "activesupport"
 
   spec.add_dependency "stemmify" #Let's eliminate this dependency
+  spec.add_dependency "colorize" #Let's eliminate this dependency
   spec.add_dependency "sexp_processor"
   spec.add_dependency "rubytree"
-  spec.add_dependency "activesupport"
   spec.add_dependency "parser"
 
 

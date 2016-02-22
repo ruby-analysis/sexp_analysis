@@ -1,4 +1,5 @@
 require 'parser/current'
+require 'ostruct'
 require 'active_support/core_ext/string'
 
 
@@ -33,12 +34,12 @@ module SexpAnalysis
     end
 
     def parse(c)
-      return [] if c.blank?
+      return OpenStruct.new(children: []) if c.blank?
       parser.parse(c)
     end
 
     def to_a(sexp, filter=nil)
-      return unless sexp
+      return unless sexp.respond_to?(:children)
 
       sexp.children.map(&children_of(filter))
     end

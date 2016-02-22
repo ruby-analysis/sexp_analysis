@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require 'sexp_analysis/tree.rb'
+require "bundler/setup"
+require 'sexp_analysis/tree'
 
 def usage!
   puts "Usage #{__FILE__} <file_match> <search>"
@@ -14,6 +15,6 @@ usage! unless ARGV.length == 2
 glob = ARGV[0]
 search = ARGV[1]
 
-puts(Writer.new(search).tap do |w|
+puts(SexpAnalysis::Writer.new(search).tap do |w|
   w.add_files(glob)
 end)
