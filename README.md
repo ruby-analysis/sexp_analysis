@@ -54,6 +54,68 @@ In less technical terms I want to be able to answer the following questions:
 > How can I fit more related things together on screen?
 
 
+#Hypothesis
+I think that Rails is great, but I think that most large Rails apps built by 
+successful founded startups are likely to have considerable technical debt.
+Often developers at startups are at the beginning of their careers and may cut
+corners in order to get to market. 
+Rails itself is an example of software that helps you quickly build applications
+but doesn't provide much of a helping hand for scaling the complexity of the codebase up.
+Namespaced Engines are an example that helps, but I've rarely seen them used,
+or when used, rarely seen them used properly.
+
+So lots of developers tackle the complexity by introducing more design patterns like
+`jobs`, `services`, `decorators`, `presenters`, `forms`, etc.
+This helps with object complexity and size, but doesn't help with code organization 
+obeying the `CRP` and `CCP`. 
+
+Technical terms, but basically they mean keep related things together. Things
+that change together should be located together.
+
+When you start with a Rails app it _does_ feel like related things are together.
+Models like `User` have many `Post`s and `Post`s belong to `User`s.
+Views are grouped together, and you can go and change all the styles for the site in
+one place.
+
+But as the application grows and you have more and more design patterns it starts to
+feel less like the concepts change together.
+
+Does your `BurgerPresenter` belong with the `RestaurantPresenter`, 
+and `EmployeePresenter` and `ManagerPresenter`?
+
+Or does it belongs with the `Burger`, `BurgerTopping`, `BurgerCreationService` and `BurgerSerializer`?
+
+If you've read this far, I'm sure you can guess which one I think is the correct answer.
+
+But I want to answer this with data.
+
+I bet that @dhh and all the guys writing basecamp etc _do_ write well organized code.
+I suspect that they know or feel exactly what and when is the right code and time to extract
+a piece of functionality into an engine.
+I also bet that organizing a really simple blog application based on domain concepts mapping to
+domain folders is also overkill.
+
+So the question is this:
+
+> Can I create a metric that gives a good feel for how coupled/cohesive/spaghetti-like a codebase is?
+
+> Would the basecamp codebase score well?
+
+> I think yes
+
+> Would a small rails app with say 10 models score better than one organized by domain concept?
+
+> I think yes
+
+> Would a large app with 300 models and controllers and every design pattern directory under the sun score better
+> in domain related folders (or in engines)
+
+> I think yes
+
+> Can I create a useful metric for this?
+
+> I think yes I can.
+
 #Tools
 Tool for quickly scanning a project and counting sexp values.
 Can use to get a quick overview of the domain concepts used in an app.
