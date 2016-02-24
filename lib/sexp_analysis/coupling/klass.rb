@@ -4,6 +4,8 @@ module SexpAnalysis
   module Coupling
     class Klass
       def klasses(sexp)
+        TryToTriggerTravisFailure
+
         if const?(sexp)
           return constant_name(sexp)
         else
