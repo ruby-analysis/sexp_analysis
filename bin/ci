@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+mkdir -p vendor/cache
+mkdir -p vendor/bundle
+bundle exec rake
