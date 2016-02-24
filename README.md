@@ -1,3 +1,8 @@
+[![Build Status](http://img.shields.io/travis/markburns/sexp_analysis.svg?style=flat-square)](https://travis-ci.org/markburns/sexp_analysis)
+[![Dependency Status](http://img.shields.io/gemnasium/markburns/sexp_analysis.svg?style=flat-square)](https://gemnasium.com/markburns/sexp_analysis)
+[![Code Climate](http://img.shields.io/codeclimate/github/markburns/sexp_analysis.svg?style=flat-square)](https://codeclimate.com/github/markburns/sexp_analysis)
+[![Gem Version](http://img.shields.io/gem/v/sexp_analysis.svg?style=flat-square)](https://rubygems.org/gems/sexp_analysis)
+
 #Ruby Sexp analysis
 
 ##A `SOLID CASE` for application architecture
