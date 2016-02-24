@@ -7,24 +7,24 @@ describe SexpAnalysis::Coupling::Instance do
   #s(:begin,
   #  s(:def, :instance_coupling,
   #    s(:args,
-  #      s(:arg, :some_instance)),
+  #      s(:arg, :some_parameter)),
   #    s(:begin,
   #      s(:send,
-  #        s(:lvar, :some_instance), :this_message),      #sexp.children[2].children[1].children[2].children[0]
+  #        s(:lvar, :some_parameter), :this_message),      #sexp.children[2].children[1].children[2].children[0]
   #      s(:send,
-  #        s(:lvar, :some_instance), :that_message),
+  #        s(:lvar, :some_parameter), :that_message),
   #      s(:send,
-  #        s(:lvar, :some_instance), :tons_more))),
+  #        s(:lvar, :some_parameter), :tons_more))),
   #  s(:def, :more_instance_coupling,
   #    s(:args,
-  #      s(:arg, :some_instance)),
+  #      s(:arg, :some_parameter)),
   #    s(:begin,
   #      s(:send,
-  #        s(:lvar, :some_instance), :another_message),
+  #        s(:lvar, :some_parameter), :another_message),
   #      s(:send,
-  #        s(:lvar, :some_instance), :yet_more),
+  #        s(:lvar, :some_parameter), :yet_more),
   #      s(:send,
-  #        s(:lvar, :some_instance), :here_we_go)))))
+  #        s(:lvar, :some_parameter), :here_we_go)))))
   #
   let(:sexp) { SexpAnalysis::FileSexp.for("fixtures/instance_coupling.rb") }
 
@@ -32,7 +32,7 @@ describe SexpAnalysis::Coupling::Instance do
     result = subject.instances(sexp)
 
     expect(result).to eq({
-      some_instance: {
+      some_parameter: {
         this_message: 2,
         that_message: 1,
         tons_more: 1,
@@ -40,7 +40,7 @@ describe SexpAnalysis::Coupling::Instance do
         yet_more: 1,
         here_we_go: 1,
       },
-      another: {
+      another_parameter: {
         message: 1,
         second_message: 1,
       }
@@ -48,7 +48,7 @@ describe SexpAnalysis::Coupling::Instance do
   end
 
   #s(:send,
-  #  s(:lvar, :some_instance), :this_message)
+  #  s(:lvar, :some_parameter), :this_message)
   let(:sendable_node) {
     sexp.children[2].children[1].children[2].children[0]
   }
@@ -65,7 +65,7 @@ describe SexpAnalysis::Coupling::Instance do
 
   describe "sendable_name" do
     it do
-      expect(subject.sendable_name(sendable_node)).to eq :some_instance
+      expect(subject.sendable_name(sendable_node)).to eq :some_parameter
     end
   end
 
