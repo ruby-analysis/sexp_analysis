@@ -1,3 +1,4 @@
+require_relative 'method_logging/method_logging'
 require_relative 'sexp_stemmer'
 require_relative 'glob'
 

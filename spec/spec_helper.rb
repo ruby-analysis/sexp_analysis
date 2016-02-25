@@ -1,4 +1,5 @@
-require "byebug"
+require "sexp_analysis/method_logging/method_logging"
+
 
 def expand_fixture_path(path="")
   s = File.join File.expand_path(fixture_path), path
