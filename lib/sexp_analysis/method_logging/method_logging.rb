@@ -3,7 +3,6 @@ require_relative "../file_tree/common_path"
 
 module MethodLoggingFramework
   def self.log(object, name, args, keyword_args, block)
-    raise 123
     puts "#{object}##{name}(#{args}, #{keyword_args}, #{block})"
   end
 
@@ -14,10 +13,10 @@ module MethodLoggingFramework
 
     path = Pathname.new(file)
     common_path = FileTree::CommonPath.common_parent_directory_path(path, logging_root)
-    #puts "************ COMMON_PATH#{common_path.to_s}"
-    #puts "************ LOGGING_ROOT#{logging_root.to_s}"
+    # puts "************ COMMON_PATH#{common_path.to_s}"
+    # puts "************ LOGGING_ROOT#{logging_root.to_s}"
 
-    common_path.to_s.length <= logging_root.to_s.length
+    common_path.to_s.length < logging_root.to_s.length
   end
 
   def self.logging_root
@@ -28,7 +27,6 @@ end
 class Object
   def self.log_method_call(name, class_method: false)
     m = class_method ? singleton_method(name) : instance_method(name)
-    puts "adding method #{name}"
     return if MethodLoggingFramework.exclude_from_logging?(m)
 
     method_defining_method = class_method ? method(:define_singleton_method) : method(:define_method)
