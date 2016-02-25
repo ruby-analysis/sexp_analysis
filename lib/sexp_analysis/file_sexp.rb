@@ -4,7 +4,14 @@ require 'active_support/core_ext/string'
 
 
 module SexpAnalysis
-  class FileSexp  < Struct.new(:filename)
+  class FileSexp  
+    attr_reader :filename
+
+    def initialize(filename)
+      @filename = filename
+    end
+
+
     def self.for(filename)
       new(filename).sexp
     end

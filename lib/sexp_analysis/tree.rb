@@ -1,7 +1,14 @@
 require 'colorize' #remove this dependency
 
 module SexpAnalysis
-  class Writer < Struct.new(:search)
+  class Writer
+    attr_reader :search
+
+    def initialize(search)
+      @search = search
+    end
+
+
     def add_files(glob)
       Dir.glob(glob).each do |f|
         add_file f
@@ -41,25 +48,55 @@ module SexpAnalysis
 
 
   module Display
-    class Directory < Struct.new(:raw)
+    class Directory
+    attr_reader :raw
+
+    def initialize(raw)
+      @raw = raw
+    end
+
+
       def to_s
         "\n#{raw}"
       end
     end
 
-    class Dot < Struct.new(:raw)
+    class Dot 
+    attr_reader :raw
+
+      def initialize(raw)
+        @raw = raw
+      end
+
+
+
+
       def to_s
         "."
       end
     end
 
-    class Cohesive < Struct.new(:raw)
+    class Cohesive 
+      attr_reader :raw
+
+      def initialize(raw)
+        @raw = raw
+      end
+
+
       def to_s
         "√".green
       end
     end
 
-    class CodeSmell < Struct.new(:raw)
+    class CodeSmell 
+      attr_reader :raw
+
+      def initialize(raw)
+        @raw = raw
+      end
+
+
       def to_s
         "X".red
       end

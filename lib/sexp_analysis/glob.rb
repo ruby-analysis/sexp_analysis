@@ -1,5 +1,11 @@
 module SexpAnalysis
-  class Glob < Struct.new(:glob, :exclusions)
+  class Glob
+    attr_reader :glob, :exclusions
+
+    def initialize(glob, exclusions=nil)
+      @glob, @exclusions = glob, exclusions
+    end
+
     def files
       @files ||= determine_files
     end

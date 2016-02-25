@@ -3,7 +3,13 @@ require_relative 'file_sexp'
 require_relative 'stop_words'
 
 module SexpAnalysis
-  class SexpStemmer < Struct.new(:filename)
+  class SexpStemmer
+    attr_reader :filename
+
+    def initialize(filename)
+      @filename = filename
+    end
+
     def stemmed_strings
       FileSexp.new(filename).
         flattened_sexp.

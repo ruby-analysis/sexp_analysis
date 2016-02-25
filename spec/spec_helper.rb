@@ -1,4 +1,4 @@
-require "sexp_analysis/method_logging/method_logging"
+require "byebug"
 
 
 def expand_fixture_path(path="")

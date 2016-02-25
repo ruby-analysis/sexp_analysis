@@ -1,5 +1,11 @@
 module FileTree
-  class Relation < Struct.new(:start_path, :finish_path)
+  class Relation 
+    attr_reader :start_path, :finish_path
+
+    def initialize(start_path, finish_path)
+      @start_path, @finish_path = start_path, finish_path
+    end
+
     def other_files
       RelatedPaths.new(start_path).files
     end
@@ -65,7 +71,14 @@ module FileTree
       index
     end
 
-    class RelatedPaths < Struct.new(:path)
+    class RelatedPaths
+      attr_reader :path
+
+      def initialize(path)
+        @path = path
+      end
+
+
       def files
         all.select(&:file?)
       end

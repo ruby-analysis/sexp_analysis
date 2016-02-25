@@ -2,16 +2,15 @@ require "sexp"
 require_relative "analysis_summary"
 
 describe SexpAnalysis::AnalysisSummary do
-
+  let(:summary) { described_class.new("./fixtures/**/example.rb") }
 
   describe "#sorted" do
     before do
-      @summary = described_class.new("./fixtures/**/example.rb") 
-      expect(@summary).to receive(:sexp_contents).and_return %w(a a b c) 
+      expect(summary).to receive(:sexp_contents).and_return %w(a a b c) 
     end
 
     it do
-      expect(@summary.sorted).to match_array [
+      expect(summary.sorted).to match_array [
         ["a", 2],
         ["b", 1],
         ["c", 1]

@@ -1,8 +1,13 @@
 require_relative "traversal_calculator"
-require_relative "common_path"
 
 module FileTree
-  class DistanceCalculation < Struct.new(:path_a, :path_b)
+  class DistanceCalculation
+    attr_reader :path_a, :path_b
+
+    def initialize(path_a, path_b)
+      @path_a, @path_b = path_a, path_b
+    end
+
     attr_reader :traversal_a, :traversal_b
 
     def traversals_for(a,b)
@@ -94,11 +99,22 @@ module FileTree
     end
 
     def top_ancestor
-      common_parent_directory_path(path_a, path_b)
+      common_directory_path(path_a, path_b)
     end
 
-    def common_parent_directory_path(path_a, path_b)
-      CommonPath.common_parent_directory_path(path_a, path_b)
+    def common_directory_path(path_a, path_b)
+      separator = '/'
+      dirs = [path_a.to_s, path_b.to_s]
+
+      dir1, dir2 = dirs.minmax.map{|dir| dir.split(separator) }
+
+      path = dir1.
+        zip(dir2).
+        take_while{|dn1,dn2| dn1 == dn2 }.
+        map(&:first).
+        join(separator)
+
+      Pathname.new(path)
     end
   end
 

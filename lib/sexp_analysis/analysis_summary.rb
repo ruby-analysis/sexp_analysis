@@ -3,7 +3,13 @@ require_relative 'sexp_stemmer'
 require_relative 'glob'
 
 module SexpAnalysis
-  class AnalysisSummary < Struct.new(:glob, :exclusions)
+  class AnalysisSummary
+    attr_reader :glob, :exclusions
+
+    def initialize(glob, exclusions=nil)
+      @glob, @exclusions = glob, exclusions
+    end
+
     def sorted
       sexp_contents.each do |words|
         word_count.add(*words)

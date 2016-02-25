@@ -2,8 +2,15 @@ require "pathname"
 require_relative "../file_tree/common_path"
 
 module MethodLoggingFramework
-  def self.log(object, name, args, keyword_args, block)
-    puts "#{object}##{name}(#{args}, #{keyword_args}, #{block})"
+  def self.log(object, method_name, args, keyword_args, block, class_method)
+    args = args.map(&:class)
+    symbol = class_method ? "." : "#"
+    keyword_args = keyword_args.dup
+    keyword_args.each do |k,v|
+      keyword_args[k]= v.class
+    end
+
+    puts "#{object.class}#{symbol}#{method_name}(#{args}, #{keyword_args})"
   end
 
   def self.exclude_from_logging?(method)
@@ -32,13 +39,26 @@ class Object
     method_defining_method = class_method ? method(:define_singleton_method) : method(:define_method)
 
     method_defining_method.call(name) do |*args, **keyword_args, &block|
-      MethodLoggingFramework.log(self, name, args, keyword_args, block)
+      MethodLoggingFramework.log(self, name, args, keyword_args, block, class_method)
 
       if class_method
-        m.call(*args, &block)
+        if keyword_args.empty?
+          m.call(*args, &block)
+        else
+          m.call(*args, **keyword_args, &block)
+        end
       else
         bound_method = m.bind(self)
-        bound_method.call(*args, &block)
+        if keyword_args.empty?
+          begin
+          bound_method.call(*args, &block)
+          rescue
+            byebug
+            1
+          end
+        else
+          bound_method.call(*args, **keyword_args, &block)
+        end
       end
     end
   end
