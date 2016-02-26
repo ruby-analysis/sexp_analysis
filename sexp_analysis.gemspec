@@ -10,15 +10,16 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mark Burns"]
   spec.email         = ["markthedeveloper@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Fitting more on screen, makes developers happy: A hypothesis}
+  spec.description   = %q{Record and measure coupling in your ruby apps}
+  spec.homepage      = "https://github.com/markburns/sexp_analysis"
 
 
   spec.add_development_dependency "growl"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "guard-rspec"
+  spec.add_dependency "delfos"
 
   spec.add_dependency "activesupport"
 

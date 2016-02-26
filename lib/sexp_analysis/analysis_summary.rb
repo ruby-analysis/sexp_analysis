@@ -1,9 +1,9 @@
-require_relative 'method_logging/method_logging'
 require_relative 'sexp_stemmer'
 require_relative 'glob'
 
 module SexpAnalysis
   class AnalysisSummary
+
     attr_reader :glob, :exclusions
 
     def initialize(glob, exclusions=nil)

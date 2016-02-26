@@ -1,9 +1,15 @@
 PATH
+  remote: ../delfos
+  specs:
+    delfos (0.1.0)
+
+PATH
   remote: .
   specs:
     sexp_analysis (0.1.0)
       activesupport
       colorize
+      delfos
       parser
       rubytree
       sexp_processor
@@ -94,6 +100,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.11)
   byebug
+  delfos!
   growl
   guard-rspec
   rake (~> 10.0)
