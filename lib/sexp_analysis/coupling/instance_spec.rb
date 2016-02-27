@@ -26,7 +26,7 @@ describe SexpAnalysis::Coupling::Instance do
   #      s(:send,
   #        s(:lvar, :some_parameter), :here_we_go)))))
   #
-  let(:sexp) { SexpAnalysis::FileSexp.for("fixtures/instance_coupling.rb") }
+  let(:sexp) { SexpAnalysis::FileSexp.for("fixtures/ruby/instance_coupling.rb") }
 
   it do
     result = subject.instances(sexp)

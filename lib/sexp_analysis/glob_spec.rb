@@ -2,10 +2,10 @@ require_relative "glob"
 
 describe SexpAnalysis::Glob do
   it do
-    glob = described_class.new("./fixtures/**/*.rb")
+    glob = described_class.new("./fixtures/ruby/*.rb")
 
     expect(glob.files).to eq(
-      %w(./fixtures/efferent_coupling.rb ./fixtures/example.rb ./fixtures/instance_coupling.rb)
+      %w(./fixtures/ruby/efferent_coupling.rb ./fixtures/ruby/example.rb ./fixtures/ruby/instance_coupling.rb)
     )
   end
 end

@@ -30,7 +30,7 @@ describe SexpAnalysis::Coupling::Klass do
   #      s(:send,
   #        s(:const, nil, :HereIsSomeMore), :for_good_measure))))
   #
-  let(:sexp) { SexpAnalysis::FileSexp.for("fixtures/efferent_coupling.rb") }
+  let(:sexp) { SexpAnalysis::FileSexp.for("fixtures/ruby/efferent_coupling.rb") }
   let(:constant_node) { sexp.children[2].children[2].children[0].children[0] }
 
   describe "const?" do

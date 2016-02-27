@@ -2,7 +2,7 @@ require "sexp"
 require_relative "analysis_summary"
 
 describe SexpAnalysis::AnalysisSummary do
-  let(:summary) { described_class.new("./fixtures/**/example.rb") }
+  let(:summary) { described_class.new("./fixtures/ruby/example.rb") }
 
   describe "#sorted" do
     before do
@@ -19,7 +19,7 @@ describe SexpAnalysis::AnalysisSummary do
   end
 
   it do
-    summary = described_class.new(["./fixtures/example.rb"])
+    summary = described_class.new(["./fixtures/ruby/example.rb"])
 
     expect(summary.sexp_contents.to_a).to eq(
       [["Exampl", "Some", "Some", "Arg", "Some", "Another", "Arg"]]

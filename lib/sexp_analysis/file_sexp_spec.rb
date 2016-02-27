@@ -3,7 +3,7 @@ require_relative "file_sexp"
 describe SexpAnalysis::FileSexp do
   describe "#flattened_sexp" do
     it do
-      file_sexp = described_class.new("./fixtures/example.rb")
+      file_sexp = described_class.new("./fixtures/ruby/example.rb")
 
       expect(file_sexp.flattened_sexp).to eq(
         [:Example, nil, :some_method, :_some_arg, :@some_instance_variable, 1, :another_method, :_args_name, 2]
@@ -17,7 +17,7 @@ describe SexpAnalysis::FileSexp do
 
   describe "#sexp" do
     it do
-      file_sexp = described_class.new("./fixtures/example.rb")
+      file_sexp = described_class.new("./fixtures/ruby/example.rb")
 
       expected = s(:class, s(:const, nil, :Example),
          nil,
@@ -33,7 +33,7 @@ describe SexpAnalysis::FileSexp do
 
   describe "#sexp_names" do
     it do
-      file_sexp = described_class.new("./fixtures/example.rb")
+      file_sexp = described_class.new("./fixtures/ruby/example.rb")
 
       expected = [[:Example],
                   nil,
